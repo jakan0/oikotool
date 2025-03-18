@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import os
+from importlib import metadata
 from pathlib import Path
 from typing import Annotated, Optional
 
@@ -161,6 +162,30 @@ if "DEBUG" in os.environ:
         """
         oikotool = Oikotool()
         oikotool.slack(url=url, limit=limit)
+
+
+def version_callback(value: bool) -> None:
+    if value:
+        if not app.info.name:
+            raise ValueError("Application name is not defined")
+
+        print(f"{app.info.name} {metadata.version(app.info.name)}")
+        raise typer.Exit()
+
+
+@app.callback()
+def common_options(
+    version: Annotated[
+        Optional[bool],
+        typer.Option(
+            "--version",
+            help="Show the version and exit.",
+            callback=version_callback,
+            is_eager=True,
+        ),
+    ] = None,
+) -> None:
+    pass
 
 
 def main() -> None:
