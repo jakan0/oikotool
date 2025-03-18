@@ -18,18 +18,18 @@ releases. To install:
 1. Visit the [Releases page](https://github.com/jakan0/oikotool/releases) of the
    Oikotool repository.
 2. Download the latest `.whl` file (e.g., `oikotool-1.0.0-py3-none-any.whl`).
-3. Follow the installation instructions below for either pipx or pip.
+3. Follow the installation instructions below for either uv or pip.
 
-### Using pipx (Recommended)
+### Using uv (Recommended)
 
-[pipx](https://pipx.pypa.io/stable/) is the recommended way to install Oikotool. If you
-don't have pipx installed, you can install it following the instructions on the [pipx
-installation page](https://pipx.pypa.io/stable/installation/).
+[uv](https://docs.astral.sh/uv/) is the recommended way to install Oikotool. If you
+don't have uv installed, you can install it following the instructions on the [uv
+installation page](https://docs.astral.sh/uv/getting-started/installation/).
 
-To install Oikotool using pipx:
+To install Oikotool using uv:
 
 ```shell
-pipx install oikotool-1.0.0-py3-none-any.whl
+uv tool install oikotool-1.0.0-py3-none-any.whl
 ```
 
 ### Using pip
@@ -96,37 +96,21 @@ Keep this URL confidential as it allows posting messages to your Slack channel.
 ### Prerequisites
 
 - Python 3.10+
-- [Poetry](https://python-poetry.org/) for dependency management
+- [uv](https://docs.astral.sh/uv/) for dependency management
 
 ### Setting Up the Development Environment
 
 1. Clone the repository
-2. Install dependencies:
+2. Create the virtual environment
 
 ```shell
-poetry install
+uv venv
 ```
 
-### IDE Configuration
-
-#### Zed
-
-To configure Pyright, the static type checker used by Zed, to use the Poetry virtual
-environment for code completion:
-
-1. Run the following command in the project folder:
+3. Install the dependencies:
 
 ```shell
-poetry env info -p | read -r d; printf '{\n  "venvPath": "%s",\n  "venv": "%s"\n}\n' "$(dirname "$d")" "$(basename "$d")" > pyrightconfig.json
-```
-
-2. This will create a `pyrightconfig.json` file in the project folder similar to:
-
-```json
-{
-  "venvPath": "/home/user/.cache/pypoetry/virtualenvs",
-  "venv": "oikotool-XXXXXXXX-py3.10"
-}
+uv pip install --group dev .
 ```
 
 ### Code Quality
@@ -139,9 +123,9 @@ The project uses the following tools to maintain code quality and consistency:
 To run all code quality checks, use the following commands:
 
 ```shell
-poetry run ruff check --fix  # Lint and auto-resolve issues
-poetry run ruff format       # Format code
-poetry run mypy .            # Type checking
+uv run ruff check --fix  # Lint and auto-resolve issues
+uv run ruff format       # Format code
+uv run mypy .            # Type checking
 ```
 
 ### Testing
@@ -152,7 +136,7 @@ integration tests to ensure the reliability and correctness of Oikotool.
 To run the complete test suite:
 
 ```shell
-poetry run pytest
+uv run pytest
 ```
 
 Test files are located in the `tests/` directory and follow the standard naming

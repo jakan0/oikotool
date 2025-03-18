@@ -1,30 +1,35 @@
-[tool.poetry]
+[project]
 name = "oikotool"
 version = "1.0.0"
 description = "Command-line tool to automate property searches on Oikotie.fi"
-authors = ["Janne K <hi@jakan0.dev>"]
-license = "MIT"
-readme = "README.md"
+authors = [{ name = "Janne K", email = "hi@jakan0.dev" }]
+license = { text = "MIT" }
+readme = { file = "README.md", content-type = "text/markdown" }
+requires-python = ">=3.10"
+dependencies = [
+    "beautifulsoup4>=4.12.3",
+    "requests>=2.32.3",
+    "tenacity>=9.0.0",
+    "typer>=0.12.5",
+]
 
-packages = [{ include = "oikotool", from = "src" }]
-include = [{ path = "tests", format = "sdist" }]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-typer = "^0.12.5"
-requests = "^2.32.3"
-beautifulsoup4 = "^4.12.3"
-tenacity = "^9.0.0"
-
-[tool.poetry.group.dev.dependencies]
-ruff = "^0.5.7"
-mypy = "^1.11.2"
-pytest = "^8.3.2"
-types-requests = "^2.32.0.20240712"
-types-beautifulsoup4 = "^4.12.0.20240511"
-
-[tool.poetry.scripts]
+[project.scripts]
 oikotool = "oikotool.cli:main"
+
+[dependency-groups]
+dev = [
+    "mypy>=1.11.2",
+    "pytest>=8.3.2",
+    "ruff>=0.5.7",
+    "types-beautifulsoup4>=4.12.0.20240511",
+    "types-requests>=2.32.0.20240712",
+]
+
+[tool.hatch.build.targets.sdist]
+only-include = ["src", "tests"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/oikotool"]
 
 [tool.mypy]
 allow_redefinition = false
@@ -41,9 +46,11 @@ warn_unreachable = true
 warn_unused_configs = true
 warn_unused_ignores = true
 
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
 [tool.ruff]
 cache-dir = "~/.cache/ruff"
-target-version = "py310"
 
 [tool.ruff.lint]
 extend-select = ["I"]
@@ -52,5 +59,5 @@ extend-select = ["I"]
 known-first-party = ["oikotool"]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
