@@ -71,6 +71,12 @@ class MockListingProvider:
         return listing
 
     @property
+    def total_size(self) -> dict[str, Any]:
+        listing = self.complete_listing
+        listing["data"]["size"] = "75/85 m\u00b2"
+        return listing
+
+    @property
     def undefined_district(self) -> dict[str, Any]:
         listing = self.complete_listing
         listing["location"]["district"] = None

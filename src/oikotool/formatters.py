@@ -53,8 +53,8 @@ class ListingBaseFormatter:
         return ""
 
     def _format_size(self) -> str:
-        number = re.sub(r"[^\d,]", "", str(self._listing["data"]["size"]))
-        number = number.replace(",", ".")
+        number = re.sub(r"[^\d,/]", "", str(self._listing["data"]["size"]))
+        number = number.split("/")[0].replace(",", ".")
         size = float(number) if number else None
         if size and size > 0:
             formatted = f"{size:.1f}" if size % 1 else f"{size:.0f}"

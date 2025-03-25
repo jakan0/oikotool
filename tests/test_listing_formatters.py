@@ -34,6 +34,13 @@ class TestListingBaseFormatter:
         expected = "75 m²"
         assert result == expected
 
+    def test_total_size(self) -> None:
+        mock = MockListingProvider()
+        formatter = ListingBaseFormatter(mock.total_size)
+        result = formatter.size
+        expected = "75 m²"
+        assert result == expected
+
     def test_undefined_district(self) -> None:
         mock = MockListingProvider()
         formatter = ListingBaseFormatter(mock.undefined_district)
