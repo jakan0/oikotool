@@ -44,18 +44,18 @@ class ListingBaseFormatter:
         )
 
     def _format_price(self) -> str:
-        number = re.sub(r"[^\d,]", "", str(self._listing["data"]["price"]))
-        number = number.replace(",", ".")
-        price = float(number) if number else None
+        raw_price = re.sub(r"[^\d,]", "", str(self._listing["data"]["price"]))
+        raw_price = raw_price.replace(",", ".")
+        price = float(raw_price) if raw_price else None
         if price and price > 0:
             formatted = f"{price:_.0f}".replace("_", " ")
             return f"{formatted} €"
         return ""
 
     def _format_size(self) -> str:
-        number = re.sub(r"[^\d,/]", "", str(self._listing["data"]["size"]))
-        number = number.split("/")[0].replace(",", ".")
-        size = float(number) if number else None
+        raw_size = re.sub(r"[^\d,/]", "", str(self._listing["data"]["size"]))
+        raw_size = raw_size.split("/")[0].replace(",", ".")
+        size = float(raw_size) if raw_size else None
         if size and size > 0:
             formatted = f"{size:.1f}" if size % 1 else f"{size:.0f}"
             return f"{formatted} m²"
